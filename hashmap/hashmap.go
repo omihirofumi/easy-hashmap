@@ -1,3 +1,4 @@
+// Package hashmap provides a just easy hashmap.
 package hashmap
 
 import (
