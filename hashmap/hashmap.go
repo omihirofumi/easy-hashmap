@@ -22,28 +22,9 @@ type HashMap[T string | int] struct {
 	nodes []*Node[T]
 }
 
-// hash calculates the hash value based on the "Jenkins hash function".
-func hash(key string) uint32 {
-	var hash uint32 = 0
-	for _, ch := range key {
-		hash += uint32(ch)
-		hash += hash << 10
-		hash ^= hash >> 6
-	}
-	hash += hash << 3
-	hash ^= hash >> 11
-	hash += hash << 15
-	return hash
-}
-
 // NewHashMap creates a HashMap with values of the specified type.
 func NewHashMap[T string | int]() *HashMap[T] {
 	return &HashMap[T]{nodes: make([]*Node[T], MAP_SIZE)}
-}
-
-// getIndex returns the index of the key.
-func getIndex(key string) int {
-	return int(hash(key)) % MAP_SIZE
 }
 
 // Put puts a key and value to HashMap.
@@ -118,4 +99,23 @@ func (h *HashMap[T]) Keys() []string {
 		}
 	}
 	return keyList
+}
+
+// hash calculates the hash value based on the "Jenkins hash function".
+func hash(key string) uint32 {
+	var hash uint32 = 0
+	for _, ch := range key {
+		hash += uint32(ch)
+		hash += hash << 10
+		hash ^= hash >> 6
+	}
+	hash += hash << 3
+	hash ^= hash >> 11
+	hash += hash << 15
+	return hash
+}
+
+// getIndex returns the index of the key.
+func getIndex(key string) int {
+	return int(hash(key)) % MAP_SIZE
 }
