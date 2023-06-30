@@ -64,9 +64,29 @@ func TestDuplicationAndLength(t *testing.T) {
 
 func TestKeys(t *testing.T) {
 	t.Parallel()
+
+	truthMap := map[string]int{
+		"key1": 1,
+		"key2": 2,
+	}
 	hmap := NewHashMap[int]()
-	hmap.Put("key1", 1)
-	hmap.Put("key2", 2)
-	t.Logf("expected: %v", []string{"key1", "key2"})
-	t.Logf("actual: %v", hmap.Keys())
+	for k, v := range truthMap {
+		hmap.Put(k, v)
+	}
+
+	if len(truthMap) != len(hmap.Keys()) {
+		t.Error("Map/keys mismatch")
+	}
+
+	for _, key := range hmap.Keys() {
+		if _, ok := truthMap[key]; !ok {
+			t.Error("Key", key, "not in truthMap")
+		}
+
+		delete(truthMap, key)
+	}
+
+	if len(truthMap) != 0 {
+		t.Error("key mismatch")
+	}
 }
