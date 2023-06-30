@@ -1,6 +1,8 @@
 # About
 チェイン法を使用した、HashMapの簡単な実装
 
+"ジェネリクスを使用しているため、Goは1.18以上"
+
 # Installing
 ### Using *go get*
 
